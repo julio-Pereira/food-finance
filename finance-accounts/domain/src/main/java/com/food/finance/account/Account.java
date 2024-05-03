@@ -6,12 +6,12 @@ import java.time.Instant;
 
 public class Account extends AggregateRoot<AccountID> {
 
-    private AccountType accountType;
-    private String accountName;
-    private boolean isActive;
-    private Instant createdAt;
-    private Instant updatedAt;
-    private Instant deletedAt;
+    private final AccountType accountType;
+    private final String accountName;
+    private final boolean isActive;
+    private final Instant createdAt;
+    private final Instant updatedAt;
+    private final Instant deletedAt;
 
     protected Account(
             final AccountID anAccountID,
