@@ -1,14 +1,18 @@
 package com.food.finance;
 
+import com.food.finance.validation.ValidationHandler;
+
 import java.util.Objects;
 
-public class Entity<ID extends Identifier> {
+public abstract class Entity<ID extends Identifier> {
     protected final ID id;
 
     protected Entity(final ID id) {
         Objects.requireNonNull(id, "Id cannot be null");
         this.id = id;
     }
+
+    public abstract void validate(ValidationHandler handler);
 
     public ID getId() {
         return id;

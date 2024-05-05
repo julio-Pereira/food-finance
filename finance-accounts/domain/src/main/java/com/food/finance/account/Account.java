@@ -1,6 +1,7 @@
 package com.food.finance.account;
 
 import com.food.finance.AggregateRoot;
+import com.food.finance.validation.ValidationHandler;
 
 import java.time.Instant;
 
@@ -45,6 +46,11 @@ public class Account extends AggregateRoot<AccountID> {
                 now,
                 now,
                 deleteAt);
+    }
+
+    @Override
+    public void validate(ValidationHandler handler) {
+        new AccountValidator(this, handler).validate();
     }
 
     public AccountType getAccountType() {
