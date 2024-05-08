@@ -1,17 +1,19 @@
 package com.food.finance.account;
 
 import com.food.finance.AggregateRoot;
+import com.food.finance.validation.ValidationHandler;
+import jakarta.annotation.Nullable;
 
 import java.time.Instant;
 
 public class Account extends AggregateRoot<AccountID> {
 
-    private final AccountType accountType;
-    private final String accountName;
-    private final boolean isActive;
-    private final Instant createdAt;
-    private final Instant updatedAt;
-    private final Instant deletedAt;
+    private AccountType accountType;
+    private String accountName;
+    private boolean isActive;
+    private Instant createdAt;
+    private Instant updatedAt;
+    private Instant deletedAt;
 
     protected Account(
             final AccountID anAccountID,
@@ -45,6 +47,39 @@ public class Account extends AggregateRoot<AccountID> {
                 now,
                 now,
                 deleteAt);
+    }
+
+    @Override
+    public void validate(ValidationHandler handler) {
+        new AccountValidator(this, handler).validate();
+    }
+
+    public Account activate() {
+        this.deletedAt = null;
+        this.isActive = true;
+        this.updatedAt = Instant.now();
+        return this;
+    }
+
+    public Account deactivate() {
+        if (getDeletedAt() == null) {
+            this.deletedAt = Instant.now();
+        }
+        this.isActive = false;
+        this.updatedAt = Instant.now();
+        return this;
+    }
+
+    public Account update(final String anAccountName, final boolean isActive) {
+        if (isActive) {
+            activate();
+        } else {
+            deactivate();
+        }
+
+        this.accountName = anAccountName;
+        this.updatedAt = Instant.now();
+        return this;
     }
 
     public AccountType getAccountType() {
