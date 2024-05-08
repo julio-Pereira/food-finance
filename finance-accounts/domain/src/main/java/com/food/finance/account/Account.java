@@ -2,12 +2,13 @@ package com.food.finance.account;
 
 import com.food.finance.AggregateRoot;
 import com.food.finance.validation.ValidationHandler;
+import jakarta.annotation.Nullable;
 
 import java.time.Instant;
 
 public class Account extends AggregateRoot<AccountID> {
 
-    private final AccountType accountType;
+    private AccountType accountType;
     private String accountName;
     private boolean isActive;
     private Instant createdAt;
